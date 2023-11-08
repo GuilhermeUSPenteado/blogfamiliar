@@ -5,12 +5,12 @@
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
 {% block content %}
-    <h1>Users</h1>
+    <h1>Usuários</h1>
     {% for user in users %}
         <div>
             <h2>{{ user.username }}</h2>
         </div>
     {% empty %}
-        <p>No users found.</p>
+        <p>Não há usuários :(</p>
     {% endfor %}
 {% endblock %}

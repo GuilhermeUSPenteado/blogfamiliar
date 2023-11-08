@@ -10,13 +10,13 @@
   <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
   <title>
-    {% block title %}{% endblock %} Blog pessoal Guilherme U. S. Penteado
+    {% block title %}{% endblock %} Blog Familiar
   </title>
 </head>
     
 <body>
   <header id="cabecalho-principal">
-    <h1>Meu Blog</h1>
+    <h1>Blog Familiar</h1>
     {% if user.is_authenticated %}
       Olá, {{ user.username }}!
       <a href="{% url 'profile' %}">Acesse seu perfil</a>
