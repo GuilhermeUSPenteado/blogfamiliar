@@ -15,8 +15,7 @@ class Post(models.Model):
     content = models.TextField()
     post_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
-
+    category = models.ManyToManyField(Category)
     def publish(self):
         self.published_date = timezone.now()
         self.save()
