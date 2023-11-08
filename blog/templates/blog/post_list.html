@@ -21,8 +21,6 @@
         <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
         <p>Publicado em: {{ post.post_date|date:"d/m/Y H:i" }}</p>
       </li>
-    {% empty %}
-      <li>Nenhum post disponível</li>
     {% endfor %}
   </ul>
   <a href="{% url 'post_new' %}">Novo Post</a>
