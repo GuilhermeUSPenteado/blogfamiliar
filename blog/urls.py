@@ -18,4 +18,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
     path('accounts/profile/', views.profile, name='profile'),
+    path('users/', views.user_list, name='user_list'),
+    path('users/<int:user_id>/', views.user_profile, name='user_profile'),
 ]

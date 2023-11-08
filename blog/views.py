@@ -26,6 +26,12 @@ def user_list(request):
     users = User.objects.all()
     return render(request, 'blog/user_list.html', {'users': users})
 
+def user_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.user.is_authenticated and request.user.id == user_id:
+        return redirect('profile')
+    return render(request, 'user_profile.html', {'user': user})
+
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')

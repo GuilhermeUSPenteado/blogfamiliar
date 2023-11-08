@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+{% block content %}
+    <div class="profile-section">
+        <h2>Detalhes do Perfil</h2>
+        <p>Data de ingresso: {{ user.date_joined }}</p>
+        <p>último acesso: {{ user.last_login }}</p>
+        <p>Nome: {{ user.first_name }}</p>
+        <p>Sobrenome: {{ user.last_name }}</p>
+        <p>Email: {{ user.email }}</p>
+    </div>
+{% endblock %}
