@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import generic
 from django import forms
@@ -47,8 +48,7 @@ def category_detail(request, category_name):
 @login_required
 def post_list(request):
     search_query = request.GET.get('search', '')
-    posts = Post.objects.filter(title__icontains=search_query)
-    posts = Post.objects.filter(post_date__lte=timezone.now()).order_by('-post_date')
+    posts = Post.objects.filter(Q(title__icontains=search_query)).order_by('-post_date')
     return render(request, 'blog/post_list.html', {'posts': posts})
 
 @login_required
