@@ -16,9 +16,12 @@
   <div class="category">
     <h3>Categorias</h3>
     <ul>
-      <li><a href="{% url 'category_detail' category_name=category.name %}">{{ category.name }}</a></li>
+      {% for category in post.category.all %}
+        <li><a href="{% url 'category_detail' category_name=category.name %}">{{ category.name }}</a></li>
+      {% endfor %} 
     </ul>
   </div>
+  
 
   <div class="comment">
     <h2>Comentários</h2>
