@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+{% block content %}
+  <h2>Posts</h2>
+  <form method="GET">
+    <input type="text" name="search" placeholder="Search posts">
+    <input type="submit" value="Search">
+  </form>
+  {% if posts %}
+
+  {% else %}
+    <p>No posts found.</p>
+  {% endif %}
+  <ul>
+    {% for post in posts %}
+      <li>
+        <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+        <p>Publicado em: {{ post.post_date|date:"d/m/Y H:i" }}</p>
+      </li>
+    {% empty %}
+      <li>Nenhum post disponível.</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'post_new' %}">Novo Post</a>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+{% block content %}
+  <div class="post">
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    <p>Publicado em: {{ post.post_date|date:"d/m/Y H:i" }}</p>
+    <p><a href="{% url 'post_edit' pk=post.pk %}">Editar post</a></p>
+    <p><a href="{% url 'post_delete' pk=post.pk %}">Excluir post</a></p>
+  </div>
+  
+  <div class="category">
+    <h3>Categorias</h3>
+    <ul>
+      <li><a href="{% url 'category_detail' category_name=category.name %}">{{ category.name }}</a></li>
+    </ul>
+  </div>
+
+  <div class="comment">
+    <h2>Comentários</h2>
+    {% for comment in comments %}
+    <p>Comentado em: {{ comment.created_date|date:"d/m/Y H:i" }}</p>
+    <p>{{ comment.text }}</p>
+    {% empty %}
+    <p>Nenhum comentário ainda.</p>
+    {% endfor %}
+    <p><a href="{% url 'add_comment_to_post' pk=post.pk %}">Adicionar comentário</a></p>
+  </div>
+{% endblock %}

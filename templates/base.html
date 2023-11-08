@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+  <title>
+    {% block title %}{% endblock %} Blog pessoal Guilherme U. S. Penteado
+  </title>
+</head>
+    
+<body>
+  <header id="cabecalho-principal">
+    <h1>Meu Blog</h1>
+    {% if user.is_authenticated %}
+      Olá, {{ user.username }}!
+      <a href="{% url 'profile' %}">Acesse seu perfil</a>
+      <a href="{% url 'user_list' %}">Lista de usuários ativos</a>
+    {% else %}
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'signup' %}">Cadastro</a>
+    {% endif %}
+    <nav id="navegacao-principal">
+      <a href="javascript:history.back()"> << </a>
+      <a href="{% url 'home' %}">Página inicial</a>
+    </nav>
+  </header>
+  <main id="conteiner-principal">
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+<footer id="rodape-principal">
+    <section>
+        <article>
+            <p> &copy; Copyright 2023 Guilherme Umberto Saporito Penteado</p>
+        </article>
+
+        <article>
+            <nav class="nav_footer">
+                <ul>
+                    <li class='nav__item'><a href="http://linkedin.com/in/guspenteado">Linkedin</a></li>
+                    <li class='nav__item'><a href="http://lattes.cnpq.br/9726427545777046">Lattes</a></li>
+                </ul>
+            </nav>
+        </article>
+    </section>
+</footer>
+
+</html>

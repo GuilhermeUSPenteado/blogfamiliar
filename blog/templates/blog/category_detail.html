@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+{% block content %}
+    <h1>Posts in Category: {{ category.name }}</h1>
+    {% for post in posts %}
+    <div>
+        <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+    {% empty %}
+    <p>No posts in this category.</p>
+    {% endfor %}
+{% endblock %}

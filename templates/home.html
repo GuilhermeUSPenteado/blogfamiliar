@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+{% block content %}
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Bem-vindo ao nosso site!</h1>
+    <p><a href="{% url 'post_list' %}">Posts</a></p>
+    <p><a href="{% url 'category_list' %}">Categorias</a></p>
+    <p><a href="{% url 'about' %}">Sobre</a></p>
+</body>
+</html>
+{% endblock %}

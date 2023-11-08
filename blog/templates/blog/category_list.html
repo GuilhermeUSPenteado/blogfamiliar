@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+{% block content %}
+  <h2>Categorias</h2>
+  <ul>
+    {% for category in categories %}
+      <li>
+        <a href="{% url 'category_detail' category_name=category.name %}">{{ category.name }}</a>
+        <p>{{ category.description }}</p>
+      </li>
+    {% empty %}
+      <li>Nenhuma categoria disponível.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
