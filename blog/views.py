@@ -47,7 +47,7 @@ def category_list(request):
 
 def category_detail(request, category_name):
     category = get_object_or_404(Category, name=category_name)
-    posts = Post.objects.filter(category=category)  # use 'category' here
+    posts = Post.objects.filter(category=category)
     return render(request, 'blog/category_detail.html', {'category': category, 'posts': posts})
 
 # Views funcionais sem Django forms e sem validação de dados:
