@@ -5,15 +5,12 @@
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
 {% block content %}
+  <h2>Nova postagem</h2>
   <form method="POST">
-    {% csrf_token %}
-    {{ form.title }}
-    {{ form.content }}
-    <select name="category" multiple>
-      {% for category in form.category.field.queryset %}
-        <option value="{{ category.pk }}">{{ category.name }}</option>
-      {% endfor %}
-    </select>
+  {% csrf_token %}
+    {{ form.title.label_tag }} {{ form.title }}
+    {{ form.content.label_tag }} {{ form.content }}
+    {{ form.category.label_tag }} {{ form.category }}
     <button type="submit">Publicar</button>
   </form>
 {% endblock %}
