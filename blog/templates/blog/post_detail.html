@@ -5,14 +5,17 @@
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
 {% block content %}
-  <div class="post">
-    <p>Publicado em: {{ post.post_date|date:"d/m/Y H:i" }}</p>
-    <p>Publicado por: {{ post.author }}</p>
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.content }}</p>
+<div class="post">
+  <p>Publicado em: {{ post.post_date|date:"d/m/Y H:i" }}</p>
+  <p>Publicado por: {{ post.author }}</p>
+  <h1>{{ post.title }}</h1>
+  <p>{{ post.content }}</p>
+  {% if user.is_authenticated and user == post.author %}
     <p><a href="{% url 'post_edit' pk=post.pk %}">Editar post</a></p>
     <p><a href="{% url 'post_delete' pk=post.pk %}">Excluir post</a></p>
-  </div>
+  {% endif %}
+</div>
+
   
   <div class="category">
     <h3>Categorias</h3>
