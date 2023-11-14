@@ -51,33 +51,57 @@ def category_detail(request, category_name):
     posts = Post.objects.filter(category=category)
     return render(request, 'blog/category_detail.html', {'category': category, 'posts': posts})
 
+#Views funcionais utilizando Django forms:
+@login_required
+def post_new(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('post_list')
+    else:
+        form = PostForm()
+    return render(request, 'blog/post_edit.html', {'form': form})
+
+@login_required
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/post_edit.html', {'form': form})
+
 
 # Views com as classes genéricas ListView, DetailView, CreateView, UpdateView e DeleteView:
-@login_required
-class PostListView(ListView):
-    model = Post
-    template_name = 'blog/post_list.html'
-    context_object_name = 'posts'
+# @login_required
+# class PostListView(ListView):
+#     model = Post
+#     template_name = 'blog/post_list.html'
+#     context_object_name = 'posts'
 
-@login_required
-class PostDetailView(DetailView):
-    model = Post
-    template_name = 'blog/post_detail.html'
+# @login_required
+# class PostDetailView(DetailView):
+#     model = Post
+#     template_name = 'blog/post_detail.html'
 
-@login_required
-class PostCreateView(CreateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'blog/post_edit.html'
+# @login_required
+# class PostCreateView(CreateView):
+#     model = Post
+#     form_class = PostForm
+#     template_name = 'blog/post_edit.html'
 
-@login_required
-class PostUpdateView(UpdateView):
-    model = Post
-    form_class = PostForm
-    template_name = 'blog/post_edit.html'
+# @login_required
+# class PostUpdateView(UpdateView):
+#     model = Post
+#     form_class = PostForm
+#     template_name = 'blog/post_edit.html'
 
-@login_required
-class PostDeleteView(DeleteView):
-    model = Post
-    template_name = 'blog/post_confirm_delete.html'
-    success_url = reverse_lazy('post_list')
+# @login_required
+# class PostDeleteView(DeleteView):
+#     model = Post
+#     template_name = 'blog/post_confirm_delete.html'
+#     success_url = reverse_lazy('post_list')
