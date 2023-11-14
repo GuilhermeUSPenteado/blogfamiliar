@@ -137,6 +137,7 @@ def add_category_to_post(request, post_id):
         return render(request, 'blog/add_category.html', {'post': post, 'categories': categories})
 
 #Views funcionais utilizando Django forms:
+# @login_required
 # def post_new(request):
 #     if request.method == "POST":
 #         form = PostForm(request.POST)
@@ -147,6 +148,7 @@ def add_category_to_post(request, post_id):
 #         form = PostForm()
 #     return render(request, 'blog/post_edit.html', {'form': form})
 
+# @login_required
 # def post_edit(request, pk):
 #     post = get_object_or_404(Post, pk=pk)
 #     if request.method == "POST":
@@ -160,25 +162,30 @@ def add_category_to_post(request, post_id):
 
 
 # Views com as classes genéricas ListView, DetailView, CreateView, UpdateView e DeleteView:
+# @login_required
 # class PostListView(ListView):
 #     model = Post
 #     template_name = 'blog/post_list.html'
 #     context_object_name = 'posts'
 
+# @login_required
 # class PostDetailView(DetailView):
 #     model = Post
 #     template_name = 'blog/post_detail.html'
 
+# @login_required
 # class PostCreateView(CreateView):
 #     model = Post
 #     form_class = PostForm
 #     template_name = 'blog/post_edit.html'
 
+# @login_required
 # class PostUpdateView(UpdateView):
 #     model = Post
 #     form_class = PostForm
 #     template_name = 'blog/post_edit.html'
 
+# @login_required
 # class PostDeleteView(DeleteView):
 #     model = Post
 #     template_name = 'blog/post_confirm_delete.html'
