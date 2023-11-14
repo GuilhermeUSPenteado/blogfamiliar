@@ -51,14 +51,31 @@ def category_detail(request, category_name):
     posts = Post.objects.filter(category=category)
     return render(request, 'blog/category_detail.html', {'category': category, 'posts': posts})
 
-#Views funcionais utilizando Django forms:
+# Views funcionais sem Django forms e sem validação de dados:
+@login_required
+def post_list(request):
+    search_query = request.GET.get('search', '')
+    posts = Post.objects.filter(Q(title__icontains=search_query)).order_by('-post_date')
+    return render(request, 'blog/post_list.html', {'posts': posts})
+
+@login_required
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    comments = Comment.objects.filter(post=post)
+    categories = Category.objects.all()
+    return render(request, 'blog/post_detail.html', {'post': post, 'comments': comments, 'categories': categories})
+
 @login_required
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('post_list')
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            form.save_m2m()
+            return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
@@ -66,14 +83,82 @@ def post_new(request):
 @login_required
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    if request.user != post.author:
+        return HttpResponseForbidden()
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            form.save_m2m()
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
+
+@login_required
+def post_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.user != post.author:
+        return HttpResponseForbidden()
+    if request.method == "POST":
+        post.delete()
+        return redirect('post_list')
+    else:
+        return render(request, 'blog/post_confirm_delete.html', {'post': post})
+
+@login_required
+def add_comment_to_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'blog/add_comment_to_post.html', {'form': form})
+
+@login_required
+def add_category_to_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == "POST":
+        category = Category.objects.get(name=request.POST['category'])
+        post.category = category
+        post.save()
+        return redirect('post_detail', pk=post.id)
+    else:
+        categories = Category.objects.all()
+        return render(request, 'blog/add_category.html', {'post': post, 'categories': categories})
+
+#Views funcionais utilizando Django forms:
+# @login_required
+# def post_new(request):
+#     if request.method == "POST":
+#         form = PostForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('post_list')
+#     else:
+#         form = PostForm()
+#     return render(request, 'blog/post_edit.html', {'form': form})
+
+# @login_required
+# def post_edit(request, pk):
+#     post = get_object_or_404(Post, pk=pk)
+#     if request.method == "POST":
+#         form = PostForm(request.POST, instance=post)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('post_detail', pk=post.pk)
+#     else:
+#         form = PostForm(instance=post)
+#     return render(request, 'blog/post_edit.html', {'form': form})
 
 
 # Views com as classes genéricas ListView, DetailView, CreateView, UpdateView e DeleteView:
