@@ -9,4 +9,4 @@ setuptools==65.5.0
 sqlparse==0.4.4
 typing_extensions
 tzdata==2023.3
-whitenoise==6.6.0
+whitenoise
